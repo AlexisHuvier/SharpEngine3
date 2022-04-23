@@ -8,6 +8,7 @@ namespace SE3Launcher
     {
         public Utils.Settings settings;
         public Managers.ProjectManager projectManager;
+        public Managers.SE3Manager se3Manager;
 
         public static bool showAbout;
         public static bool showEditorParameters;
@@ -24,6 +25,7 @@ namespace SE3Launcher
                 settings = new Utils.Settings();
 
             projectManager = new Managers.ProjectManager();
+            se3Manager = new Managers.SE3Manager();
             country = new List<string>(countries).IndexOf(settings.countryCode);
             if (country == -1)
                 country = 0;
