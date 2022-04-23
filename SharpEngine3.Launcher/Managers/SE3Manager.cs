@@ -2,7 +2,7 @@
 {
     internal class SE3Manager
     {
-        List<string> versions = new List<string>();
+        public List<string> versions = new List<string>();
 
         public SE3Manager()
         {

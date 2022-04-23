@@ -10,7 +10,7 @@ namespace SE3Launcher.Utils
 
     class Versions
     {
-        public List<SE3Version> se3Versions;
+        public List<SE3Version> versions;
     }
 
     internal static class SE3Getter
@@ -21,7 +21,7 @@ namespace SE3Launcher.Utils
         {
             using(var client = new HttpClient())
             {
-                using (HttpResponseMessage response = await client.GetAsync(se3Versions.se3Versions.First(e => e.version == version).link))
+                using (HttpResponseMessage response = await client.GetAsync(se3Versions.versions.First(e => e.version == version).link))
                 {
                     using (var stream = await response.Content.ReadAsStreamAsync())
                     {
@@ -44,7 +44,7 @@ namespace SE3Launcher.Utils
                     return JsonConvert.DeserializeObject<Versions>(responseContent.ReadAsStringAsync().Result);
                 }
             }
-            return new Versions() { se3Versions = new List<SE3Version>() };
+            return new Versions() { versions = new List<SE3Version>() };
         }
     }
 }
