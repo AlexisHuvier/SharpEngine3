@@ -27,5 +27,11 @@ namespace SE3Launcher.Managers
             project.Save();
             projects.Add(project);
         }
+
+        public void RemoveProject(Project project)
+        {
+            projects.Remove(project);
+            Directory.Delete(Path.Join("Projects", project.name), true);
+        }
     }
 }

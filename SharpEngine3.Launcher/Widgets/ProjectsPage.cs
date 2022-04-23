@@ -19,11 +19,18 @@ namespace SE3Launcher.Widgets
             ImGui.Separator();
             ImGui.InputText(Resources.strings.ProjectsPage_NameProject, ref nameProject, 50);
             if (ImGui.Button(Resources.strings.ProjectsPage_CreateProject))
-                launcher.projectManager.AddProject(nameProject);
+            {
+                if (!launcher.projectManager.projects.Select(project => project.name == nameProject).Any())
+                {
+                    launcher.projectManager.AddProject(nameProject);
+                    nameProject = "";
+                }
+            }
             ImGui.Separator();
 
-            foreach(Project project in launcher.projectManager.projects)
+            for(int i = 0; i < launcher.projectManager.projects.Count; i++) 
             {
+                Project project = launcher.projectManager.projects[i];
                 ImGui.SetWindowFontScale(1.3f);
                 ImGui.Text(project.name);
                 ImGui.SetWindowFontScale(1f);
@@ -32,11 +39,12 @@ namespace SE3Launcher.Widgets
                 ImGui.Text(string.Format(Resources.strings.ProjectsPage_SE3Version, project.SE3Version));
                 ImGui.Spacing();
                 var temp = ImGui.GetCursorPos();
-                ImGui.Button(Resources.strings.ProjectsPage_Launch);
+                ImGui.Button($"{Resources.strings.ProjectsPage_Launch}##{i}");
                 ImGui.SetCursorPos(temp + new Vector2(70, 0));
-                ImGui.Button(Resources.strings.ProjectsPage_Delete);
+                if (ImGui.Button($"{Resources.strings.ProjectsPage_Delete}##{i}"))
+                    launcher.projectManager.RemoveProject(project);
                 ImGui.SetCursorPos(new Vector2(launcher.internalWindow.FramebufferSize.X * 0.70f - ImGui.CalcTextSize(Resources.strings.ProjectsPage_OpenExplorer).X - 20, temp.Y));
-                if(ImGui.Button(Resources.strings.ProjectsPage_OpenExplorer))
+                if(ImGui.Button($"{Resources.strings.ProjectsPage_OpenExplorer}##{i}"))
                 {
                     if(Directory.Exists(Path.Join("Projects", project.name))) {
                         ProcessStartInfo startInfo = new ProcessStartInfo
